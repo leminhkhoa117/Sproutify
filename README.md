@@ -5,7 +5,7 @@
 </p>
 
 <p align="center">
-  <strong>Welcome to Sproutify!</strong> This is a unique collaborative experiment where creativity takes root. We provide the digital soil—a simple HTML file with 20 empty plots—and you provide the seeds of imagination. What will you grow?
+  <strong>Welcome to Sproutify, done by Khoa and Hữu!</strong> This is a unique collaborative experiment where creativity takes root. We provide the digital soil—a simple HTML file with 20 empty plots—and you provide the seeds of imagination. What will you grow?
 </p>
 
 ---
