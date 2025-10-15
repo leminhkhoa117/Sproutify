@@ -21,7 +21,554 @@
     </div>
     <!-- Tạo 20 zone -->
     <!-- Zone 1 -->
-    <div class="zone-1"></div>
+    <div class="zone-1">
+        <div id="game-widget-container">
+            <!-- Tất cả CSS của game được gói gọn trong này để không ảnh hưởng trang của bạn -->
+            <style>
+                #game-widget-container {
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: center;
+                    align-items: center;
+                    background-color: #1a1a1a;
+                    font-family: 'Press Start 2P', cursive;
+                    color: white;
+                    padding: 30px;
+                    border-radius: 20px;
+                    border: 2px solid white;
+                }
+
+                #game-widget-container h1 {
+                    font-size: 2em;
+                    color: #FFD700;
+                    text-shadow: 3px 3px 0px #000;
+                    margin-top: 0;
+                }
+
+                #game-widget-container #game-container {
+                    border: 4px solid #fff;
+                    border-radius: 12px;
+                    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.7);
+                    overflow: hidden;
+                    position: relative;
+                    background-color: #000;
+                }
+
+                #game-widget-container canvas {
+                    display: block;
+                    image-rendering: -moz-crisp-edges;
+                    image-rendering: -webkit-crisp-edges;
+                    image-rendering: pixelated;
+                    image-rendering: crisp-edges;
+                }
+
+                #game-widget-container #ui-container {
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    pointer-events: none;
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: space-between;
+                    padding: 20px;
+                    box-sizing: border-box;
+                }
+
+                #game-widget-container #score-display {
+                    font-size: 2em;
+                    font-weight: 700;
+                    color: #fff;
+                    text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.8);
+                }
+
+                #game-widget-container #controls-info {
+                    position: absolute;
+                    bottom: 15px;
+                    left: 50%;
+                    transform: translateX(-50%);
+                    background: rgba(0, 0, 0, 0.6);
+                    padding: 8px 15px;
+                    border-radius: 8px;
+                    text-align: center;
+                    font-size: 0.8em;
+                }
+
+                #game-widget-container .game-overlay {
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    background: rgba(0, 0, 0, 0.8);
+                    color: white;
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: center;
+                    align-items: center;
+                    font-size: 1.5em;
+                    z-index: 10;
+                    text-align: center;
+                }
+
+                #game-widget-container #game-over-screen {
+                    display: none;
+                    /* Ẩn ban đầu */
+                }
+
+                #game-widget-container #game-over-screen h2 {
+                    font-size: 3em;
+                    color: #FF4500;
+                    margin: 0;
+                }
+
+                #game-widget-container #game-over-screen p {
+                    font-size: 1.5em;
+                    margin-top: 10px;
+                }
+
+                #game-widget-container #restart-button {
+                    margin-top: 30px;
+                    padding: 15px 30px;
+                    font-family: 'Press Start 2P', cursive;
+                    font-size: 1em;
+                    color: #1a1a1a;
+                    background: #FFD700;
+                    border: 4px solid white;
+                    border-radius: 10px;
+                    cursor: pointer;
+                    transition: background 0.2s, transform 0.2s;
+                }
+
+                #game-widget-container #restart-button:hover {
+                    background: #fff;
+                    transform: scale(1.05);
+                }
+            </style>
+
+            <!-- Phần HTML của game -->
+            <h1>Kẻ Mạo Danh Vũ Trụ</h1>
+            <div id="game-container">
+                <div id="loading-screen" class="game-overlay">ĐANG TẢI...</div>
+                <div id="game-over-screen" class="game-overlay">
+                    <h2>GAME OVER</h2>
+                    <p id="final-score">ĐIỂM CỦA BẠN: 0</p>
+                    <button id="restart-button">CHƠI LẠI</button>
+                </div>
+                <canvas id="gameCanvas" width="1000" height="600"></canvas>
+                <div id="ui-container">
+                    <div id="score-display">ĐIỂM: 0</div>
+                    <div id="controls-info">
+                        ← → DI CHUYỂN | ↑ NHẢY | 'X' BẮN
+                    </div>
+                </div>
+            </div>
+
+            <!-- Phần JavaScript của game -->
+            <script>
+                // Để đảm bảo script chỉ chạy khi component đã ở trong trang,
+                // chúng ta sẽ tìm các element bên trong widget này.
+                const widgetContainer = document.getElementById('game-widget-container');
+                const canvas = widgetContainer.querySelector('#gameCanvas');
+                const ctx = canvas.getContext('2d');
+                const scoreDisplay = widgetContainer.querySelector('#score-display');
+                const controlsInfo = widgetContainer.querySelector('#controls-info');
+                const loadingScreen = widgetContainer.querySelector('#loading-screen');
+                const gameOverScreen = widgetContainer.querySelector('#game-over-screen');
+                const finalScoreDisplay = widgetContainer.querySelector('#final-score');
+                const restartButton = widgetContainer.querySelector('#restart-button');
+
+
+                setTimeout(() => {
+                    controlsInfo.style.transition = 'opacity 1s';
+                    controlsInfo.style.opacity = '0';
+                }, 6000);
+
+                const GRAVITY = 0.6;
+                let score = 0;
+
+                const playerImageUrl =
+                    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSAWeMunFxXtC7GtPCuPb7WxgR0eFBqA_57rQ&s';
+                const enemyImageUrl =
+                    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRR-w4xGcD5VXwSCnVhnmAYLGBy6kpvBKpO9A&s';
+                const backgroundImageUrl =
+                    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS2gstjSu8UUt7N4WlnIRkOWX1yjIs9HMNUGQ&s';
+
+                const playerImage = new Image();
+                const enemyImage = new Image();
+                const backgroundImage = new Image();
+                playerImage.crossOrigin = "Anonymous";
+                backgroundImage.crossOrigin = "Anonymous";
+                enemyImage.crossOrigin = "Anonymous";
+
+
+                let assetsLoaded = 0;
+                const totalAssets = 3;
+                let gameLoopId = null;
+
+                function assetLoaded() {
+                    assetsLoaded++;
+                    if (assetsLoaded === totalAssets) {
+                        loadingScreen.style.display = 'none';
+                        gameLoopId = requestAnimationFrame(animate);
+                    }
+                }
+                playerImage.onload = assetLoaded;
+                enemyImage.onload = assetLoaded;
+                backgroundImage.onload = assetLoaded;
+
+                playerImage.onerror = () => {
+                    console.error("Lỗi tải ảnh nhân vật.");
+                    loadingScreen.textContent = "LỖI TẢI ẢNH";
+                };
+                enemyImage.onerror = () => {
+                    console.error("Lỗi tải ảnh quái vật.");
+                    loadingScreen.textContent = "LỖI TẢI ẢNH";
+                };
+                backgroundImage.onerror = () => {
+                    console.error("Lỗi tải ảnh nền.");
+                    loadingScreen.textContent = "LỖI TẢI ẢNH";
+                };
+
+                playerImage.src = playerImageUrl;
+                enemyImage.src = enemyImageUrl;
+                backgroundImage.src = backgroundImageUrl;
+
+                class Player {
+                    constructor() {
+                        this.width = 70;
+                        this.height = 70;
+                        this.position = {
+                            x: 100,
+                            y: canvas.height - this.height
+                        };
+                        this.velocity = {
+                            x: 0,
+                            y: 0
+                        };
+                        this.speed = 7;
+                        this.jumpPower = -17;
+                        this.onGround = false;
+                        this.facing = 'right';
+                        this.image = playerImage;
+                    }
+
+                    draw() {
+                        ctx.save();
+                        if (this.facing === 'left') {
+                            ctx.scale(-1, 1);
+                            ctx.drawImage(this.image, -this.position.x - this.width, this.position.y, this.width,
+                                this.height);
+                        } else {
+                            ctx.drawImage(this.image, this.position.x, this.position.y, this.width, this.height);
+                        }
+                        ctx.restore();
+                    }
+
+                    update() {
+                        this.draw();
+                        this.position.x += this.velocity.x;
+                        this.position.y += this.velocity.y;
+
+                        if (this.position.y + this.height + this.velocity.y < canvas.height) {
+                            this.velocity.y += GRAVITY;
+                            this.onGround = false;
+                        } else {
+                            this.velocity.y = 0;
+                            this.position.y = canvas.height - this.height;
+                            this.onGround = true;
+                        }
+
+                        if (this.position.x < 0) this.position.x = 0;
+                        if (this.position.x + this.width > canvas.width) this.position.x = canvas.width - this
+                        .width;
+                    }
+                }
+
+                class Projectile {
+                    constructor(x, y, direction) {
+                        this.position = {
+                            x,
+                            y
+                        };
+                        this.velocity = {
+                            x: direction === 'right' ? 15 : -15,
+                            y: 0
+                        };
+                        this.radius = 6;
+                        this.color = '#FF4500';
+                        this.shadowColor = 'rgba(255, 255, 0, 0.7)';
+                    }
+
+                    draw() {
+                        ctx.save();
+                        ctx.shadowColor = this.shadowColor;
+                        ctx.shadowBlur = 10;
+                        ctx.beginPath();
+                        ctx.arc(this.position.x, this.position.y, this.radius, 0, Math.PI * 2);
+                        ctx.fillStyle = this.color;
+                        ctx.fill();
+                        ctx.closePath();
+                        ctx.restore();
+                    }
+
+                    update() {
+                        this.draw();
+                        this.position.x += this.velocity.x;
+                    }
+                }
+
+                class Enemy {
+                    constructor() {
+                        this.image = enemyImage;
+                        this.width = 64;
+                        this.height = 64;
+                        this.radius = 30;
+                        this.speed = Math.random() * 1.5 + 1;
+                        this.onGround = false;
+
+                        this.spawnType = Math.random() < 0.5 ? 'top' : 'side';
+
+                        if (this.spawnType === 'top') {
+                            this.position = {
+                                x: Math.random() * (canvas.width - this.width),
+                                y: 0 - this.height
+                            };
+                            this.velocity = {
+                                x: 0,
+                                y: 0
+                            };
+                        } else { // 'side'
+                            const side = Math.random() < 0.5;
+                            this.position = {
+                                x: side ? 0 - this.width : canvas.width,
+                                y: canvas.height - this.height
+                            };
+                            this.velocity = {
+                                x: side ? this.speed * 2 : -this.speed * 2,
+                                y: 0
+                            };
+                            this.onGround = true; // Quái vật bên hông đã ở trên mặt đất
+                        }
+                    }
+
+                    draw() {
+                        ctx.drawImage(this.image, this.position.x, this.position.y, this.width, this.height);
+                    }
+
+                    update() {
+                        this.draw();
+
+                        if (this.spawnType === 'top' && !this.onGround) {
+                            this.velocity.y += GRAVITY;
+                            if (this.position.y + this.height + this.velocity.y >= canvas.height) {
+                                this.velocity.y = 0;
+                                this.position.y = canvas.height - this.height;
+                                this.onGround = true;
+                            }
+                        }
+
+                        if (this.onGround && this.spawnType === 'top') {
+                            if (player.position.x > this.position.x) this.velocity.x = this.speed;
+                            else if (player.position.x < this.position.x) this.velocity.x = -this.speed;
+                            else this.velocity.x = 0;
+                        }
+
+                        this.position.x += this.velocity.x;
+                        this.position.y += this.velocity.y;
+                    }
+                }
+
+                class Particle {
+                    constructor(x, y, radius, color, velocity) {
+                        this.position = {
+                            x,
+                            y
+                        };
+                        this.velocity = velocity;
+                        this.radius = radius;
+                        this.color = color;
+                        this.opacity = 1;
+                    }
+
+                    draw() {
+                        ctx.save();
+                        ctx.globalAlpha = this.opacity;
+                        ctx.beginPath();
+                        ctx.arc(this.position.x, this.position.y, this.radius, 0, Math.PI * 2);
+                        ctx.fillStyle = this.color;
+                        ctx.fill();
+                        ctx.restore();
+                    }
+
+                    update() {
+                        this.draw();
+                        this.position.x += this.velocity.x;
+                        this.position.y += this.velocity.y;
+                        this.opacity -= 0.025;
+                    }
+                }
+
+                let player = new Player();
+                let projectiles = [];
+                let enemies = [];
+                let particles = [];
+                let enemySpawnInterval = 1800;
+                let lastSpawnTime = 0;
+
+                const keys = {
+                    right: {
+                        pressed: false
+                    },
+                    left: {
+                        pressed: false
+                    }
+                };
+
+                function spawnEnemies() {
+                    enemies.push(new Enemy());
+                }
+
+                function endGame() {
+                    cancelAnimationFrame(gameLoopId);
+                    gameLoopId = null;
+                    finalScoreDisplay.textContent = `ĐIỂM CỦA BẠN: ${score}`;
+                    gameOverScreen.style.display = 'flex';
+                }
+
+                function resetGame() {
+                    player = new Player();
+                    projectiles = [];
+                    enemies = [];
+                    particles = [];
+                    score = 0;
+                    enemySpawnInterval = 1800;
+                    scoreDisplay.textContent = `ĐIỂM: 0`;
+                    score = 0;
+                    enemySpawnInterval = 1800;
+                    scoreDisplay.textContent = `ĐIỂM: 0`;
+                    gameOverScreen.style.display = 'none';
+                    if (!gameLoopId) {
+                        gameLoopId = requestAnimationFrame(animate);
+                    }
+                }
+                restartButton.addEventListener('click', resetGame);
+
+
+                function animate(timestamp) {
+                    gameLoopId = requestAnimationFrame(animate);
+                    ctx.drawImage(backgroundImage, 0, 0, canvas.width, canvas.height);
+
+                    player.update();
+
+                    player.velocity.x = 0;
+                    if (keys.left.pressed) player.velocity.x = -player.speed;
+                    if (keys.right.pressed) player.velocity.x = player.speed;
+                    if (keys.left.pressed) player.facing = 'left';
+                    if (keys.right.pressed) player.facing = 'right';
+
+                    particles.forEach((p, i) => p.opacity <= 0 ? particles.splice(i, 1) : p.update());
+                    projectiles.forEach((p, i) => (p.position.x < 0 || p.position.x > canvas.width) ? setTimeout(() =>
+                        projectiles.splice(i, 1), 0) : p.update());
+
+                    if (timestamp - lastSpawnTime > enemySpawnInterval) {
+                        spawnEnemies();
+                        lastSpawnTime = timestamp;
+                        if (enemySpawnInterval > 500) enemySpawnInterval -= 20;
+                    }
+
+                    enemies.forEach((enemy, enemyIndex) => {
+                        enemy.update();
+
+                        // Va chạm người chơi - quái vật
+                        if (
+                            player.position.x < enemy.position.x + enemy.width &&
+                            player.position.x + player.width > enemy.position.x &&
+                            player.position.y < enemy.position.y + enemy.height &&
+                            player.position.y + player.height > enemy.position.y
+                        ) {
+                            endGame();
+                        }
+
+                        projectiles.forEach((projectile, projectileIndex) => {
+                            const enemyCenterX = enemy.position.x + enemy.width / 2;
+                            const enemyCenterY = enemy.position.y + enemy.height / 2;
+                            const dist = Math.hypot(projectile.position.x - enemyCenterX, projectile
+                                .position.y - enemyCenterY);
+
+                            if (dist - enemy.radius - projectile.radius < 1) {
+                                for (let i = 0; i < 15; i++) {
+                                    particles.push(new Particle(
+                                        projectile.position.x, projectile.position.y, Math
+                                        .random() * 3, '#00FFFF', {
+                                            x: (Math.random() - 0.5) * 7,
+                                            y: (Math.random() - 0.5) * 7
+                                        }
+                                    ));
+                                }
+                                score += 100;
+                                scoreDisplay.textContent = `ĐIỂM: ${score}`;
+                                setTimeout(() => {
+                                    if (enemies.includes(enemy)) enemies.splice(enemyIndex, 1);
+                                    if (projectiles.includes(projectile)) projectiles.splice(
+                                        projectileIndex, 1);
+                                }, 0);
+                            }
+                        });
+                    });
+                }
+
+                const keydownHandler = ({
+                    key
+                }) => {
+                    if (!gameLoopId && key !== 'Enter') return;
+                    switch (key) {
+                        case 'a':
+                        case 'ArrowLeft':
+                            keys.left.pressed = true;
+                            event.preventDefault();
+                            break;
+                        case 'd':
+                        case 'ArrowRight':
+                            keys.right.pressed = true;
+                            event.preventDefault();
+                            break;
+                        case 'w':
+                        case 'ArrowUp':
+                        case ' ':
+                            if (player.onGround) player.velocity.y = player.jumpPower;
+                            event.preventDefault();
+                            break;
+                        case 'x':
+                            projectiles.push(new Projectile(
+                                player.position.x + player.width / 2, player.position.y + player.height / 2,
+                                player.facing
+                                
+                            ));
+                            break;
+                    }
+                };
+                const keyupHandler = ({
+                    key
+                }) => {
+                    switch (key) {
+                        case 'a':
+                        case 'ArrowLeft':
+                            keys.left.pressed = false;
+                            break;
+                        case 'd':
+                        case 'ArrowRight':
+                            keys.right.pressed = false;
+                            break;
+                    }
+                };
+
+                window.addEventListener('keydown', keydownHandler);
+                window.addEventListener('keyup', keyupHandler);
+            </script>
+        </div>
+    </div>
     <!-- Zone 2 -->
     <div class="zone-2"></div>
     <!-- Zone 3 -->
