@@ -4,7 +4,15 @@
 <head>
     <meta charset="UTF-8">
     <title>Chào mừng đến với Sproutify</title>
+    <!-- Import Google Fonts - Be Vietnam Pro với hỗ trợ tiếng Việt -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;600;700;800&display=swap" rel="stylesheet">
     <style>
+        * {
+            font-family: 'Be Vietnam Pro', sans-serif;
+        }
+        
         .welcome {
             text-align: center;
             padding: 40px 0 20px 0;
@@ -31,7 +39,7 @@
                     justify-content: center;
                     align-items: center;
                     background-color: #1a1a1a;
-                    font-family: 'Press Start 2P', cursive;
+                    font-family: 'Be Vietnam Pro', sans-serif;
                     color: white;
                     padding: 30px;
                     border-radius: 20px;
@@ -131,8 +139,9 @@
                 #game-widget-container #restart-button {
                     margin-top: 30px;
                     padding: 15px 30px;
-                    font-family: 'Press Start 2P', cursive;
+                    font-family: 'Be Vietnam Pro', sans-serif;
                     font-size: 1em;
+                    font-weight: 700;
                     color: #1a1a1a;
                     background: #FFD700;
                     border: 4px solid white;
@@ -189,11 +198,11 @@
                 let score = 0;
 
                 const playerImageUrl =
-                    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSAWeMunFxXtC7GtPCuPb7WxgR0eFBqA_57rQ&s';
+                    'https://i.redd.it/9kvk25sh2sn51.png';
                 const enemyImageUrl =
-                    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRR-w4xGcD5VXwSCnVhnmAYLGBy6kpvBKpO9A&s';
+                    'https://i.redd.it/tns1c0hs59fa1.png';
                 const backgroundImageUrl =
-                    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS2gstjSu8UUt7N4WlnIRkOWX1yjIs9HMNUGQ&s';
+                    'https://i.redd.it/n9yf3an9hzq51.png';
 
                 const playerImage = new Image();
                 const enemyImage = new Image();
@@ -320,7 +329,7 @@
                 }
 
                 class Enemy {
-                    constructor() {
+                    constructor(forceRightSide = false) {
                         this.image = enemyImage;
                         this.width = 64;
                         this.height = 64;
@@ -340,7 +349,8 @@
                                 y: 0
                             };
                         } else { // 'side'
-                            const side = Math.random() < 0.5;
+                            // Nếu forceRightSide = true, luôn xuất hiện từ bên phải
+                            const side = forceRightSide ? false : Math.random() < 0.5;
                             this.position = {
                                 x: side ? 0 - this.width : canvas.width,
                                 y: canvas.height - this.height
@@ -354,7 +364,15 @@
                     }
 
                     draw() {
-                        ctx.drawImage(this.image, this.position.x, this.position.y, this.width, this.height);
+                        ctx.save();
+                        // Lật ảnh nếu kẻ địch đang đi về bên phải
+                        if (this.velocity.x > 0) {
+                            ctx.scale(-1, 1);
+                            ctx.drawImage(this.image, -this.position.x - this.width, this.position.y, this.width, this.height);
+                        } else {
+                            ctx.drawImage(this.image, this.position.x, this.position.y, this.width, this.height);
+                        }
+                        ctx.restore();
                     }
 
                     update() {
@@ -416,6 +434,7 @@
                 let particles = [];
                 let enemySpawnInterval = 1800;
                 let lastSpawnTime = 0;
+                let enemyCount = 0; // Đếm số lượng kẻ địch đã xuất hiện
 
                 const keys = {
                     right: {
@@ -427,7 +446,10 @@
                 };
 
                 function spawnEnemies() {
-                    enemies.push(new Enemy());
+                    enemyCount++;
+                    // 3 kẻ địch đầu luôn xuất hiện từ bên phải
+                    const forceRight = enemyCount <= 3;
+                    enemies.push(new Enemy(forceRight));
                 }
 
                 function endGame() {
@@ -444,6 +466,7 @@
                     particles = [];
                     score = 0;
                     enemySpawnInterval = 1800;
+                    enemyCount = 0; // Reset số lượng kẻ địch
                     scoreDisplay.textContent = `ĐIỂM: 0`;
                     score = 0;
                     enemySpawnInterval = 1800;
