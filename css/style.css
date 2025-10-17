@@ -1,0 +1,339 @@
+/* --- CSS Variables for dynamic control --- */
+:root {
+    --background-image-url: url('https://www.skyweaver.net/images/media/wallpapers/wallpaper1.jpg');
+    --background-blur: 5px;
+    --background-brightness: 0.8;
+}
+
+/* --- General Reset & Body Styling --- */
+* {
+    box-sizing: border-box;
+    font-family: 'Be Vietnam Pro', sans-serif;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    color: white;
+    overflow: hidden;
+}
+
+/* --- Main App Container & Layers --- */
+#app-container {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+}
+
+.app-layer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+#background-layer {
+    background-image: var(--background-image-url);
+    background-size: cover;
+    background-position: center;
+    transition: filter 0.5s ease;
+    filter: blur(var(--background-blur)) brightness(var(--background-brightness));
+}
+
+#content-layer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    z-index: 2;
+    overflow-y: auto;
+}
+
+/* --- Hidden Zone Storage --- */
+#zone-content-storage {
+    display: none !important;
+}
+
+/* --- Header: Clock & Welcome Message --- */
+header {
+    text-align: center;
+    padding: 20px 0;
+    text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7);
+}
+
+#clock-container {
+    font-size: 2.5em;
+    font-weight: 700;
+}
+
+header h1 {
+    font-size: 3em;
+    font-weight: 800;
+    margin: 10px 0;
+}
+
+/* --- View Switcher --- */
+#view-switcher-container {
+    position: fixed;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1000;
+    opacity: 0.5;
+    transition: opacity 0.3s ease;
+}
+
+#view-switcher-container:hover {
+    opacity: 1;
+}
+
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    height: 34px;
+}
+
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(255, 255, 255, 0.3);
+    backdrop-filter: blur(5px);
+    transition: .4s;
+    border-radius: 34px;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 26px;
+    width: 26px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    transition: .4s;
+    border-radius: 50%;
+}
+
+input:checked+.slider {
+    background-color: #4caf50;
+}
+
+input:checked+.slider:before {
+    transform: translateX(26px);
+}
+
+/* --- Main Content Views --- */
+main {
+    width: 100%;
+    flex-grow: 1;
+}
+
+.view {
+    display: none;
+    width: 100%;
+    height: 100%;
+}
+
+/* --- Launchpad View --- */
+#launchpad-view.active {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    gap: 30px;
+    padding: 20px 5%;
+    justify-content: center;
+}
+
+.launchpad-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px; /* Space between icon and name */
+    cursor: pointer;
+    text-align: center;
+}
+
+.app-icon {
+    width: 120px;
+    height: 120px;
+    background-color: rgba(0, 0, 0, 0.3);
+    border-radius: 22.5%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: transform 0.2s ease, background-color 0.2s ease;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.launchpad-item:hover .app-icon {
+    transform: scale(1.1);
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+img.app-icon-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Ensure image covers the area */
+    border-radius: 22.5%; /* Match the parent squircle */
+}
+
+.app-icon-img-placeholder {
+    width: 100%;
+    height: 100%;
+    background-color: #4caf50;
+    border-radius: 22.5%;
+    font-size: 3em;
+    font-weight: bold;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-shrink: 0;
+}
+
+.app-icon-name {
+    font-size: 0.9em;
+    font-weight: 600;
+    width: 120px; /* Match icon width */
+    line-height: 1.2;
+    color: white;
+}
+
+/* --- Grid View --- */
+#grid-view.active {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+    width: 100%;
+    padding: 0 2%; /* Add some horizontal padding */
+}
+
+/* --- Modal Popup --- */
+#modal-popup {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(10px);
+    z-index: 2000;
+    display: none;
+    justify-content: center;
+    align-items: center;
+}
+
+#modal-content {
+    position: relative;
+    width: 95%;
+    height: 95%;
+    background-color: #1e1e1e;
+    border-radius: 15px;
+    overflow: auto;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+}
+
+/* FIX: Make content inside modal fill the space */
+#modal-content > div {
+    width: 100%;
+    height: 100%;
+}
+
+#modal-controls {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    z-index: 2001;
+}
+
+#modal-controls button {
+    background: rgba(255, 255, 255, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    color: white;
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 1.2em;
+    margin-left: 10px;
+}
+
+#modal-controls button:hover {
+    background: rgba(255, 255, 255, 0.4);
+}
+
+/* --- Settings --- */
+#settings-toggle {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 1001;
+    background: rgba(255, 255, 255, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    color: white;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 1.5em;
+}
+
+#settings-panel {
+    position: fixed;
+    top: 0;
+    right: -350px;
+    width: 320px;
+    height: 100%;
+    background: rgba(30, 30, 30, 0.9);
+    backdrop-filter: blur(10px);
+    z-index: 1002;
+    padding: 20px;
+    box-shadow: -5px 0 20px rgba(0,0,0,0.2);
+    transition: right 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+    color: white;
+}
+
+#settings-panel.open {
+    right: 0;
+}
+
+#settings-close-btn {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    background: none;
+    border: none;
+    color: white;
+    font-size: 2em;
+    cursor: pointer;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 8px;
+    border-radius: 5px;
+    border: 1px solid #555;
+    background: #333;
+    color: white;
+}

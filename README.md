@@ -1,101 +1,83 @@
-# Sproutify - A Collaborative Digital Garden
+# Sproutify - A Collaborative Digital Garden (v2.0)
 
 <p align="center">
-  <img src="https://placehold.co/600x300/e8f5e9/4caf50/png?text=Sproutify" alt="Sproutify Banner">
+  <img src="https://placehold.co/600x300/e8f5e9/4caf50/png?text=Sproutify+2.0" alt="Sproutify Banner">
 </p>
 
 <p align="center">
-  <strong>Welcome to Sproutify, done by Khoa and Hữu!</strong> This is a unique collaborative experiment where creativity takes root. We provide the digital soil—a simple HTML file with 20 empty plots—and you provide the seeds of imagination. What will you grow?
+  <strong>Welcome to the new Sproutify, done by Khoa and Hữu!</strong> This is a unique collaborative experiment where creativity takes root. We provide the digital soil—a dynamic, modern web interface—and you provide the seeds of imagination. What will you grow?
 </p>
 
 ---
 
 ## 🌱 The Core Concept
 
-Sproutify is built on a simple yet powerful premise: **collective creativity within defined spaces**. Our shared canvas is a single `index.html` file, thoughtfully divided into 20 distinct `div` elements, which we call "zones."
+Sproutify is built on a simple yet powerful premise: **collective creativity within defined spaces**. Our shared canvas is a single `index.html` file, which dynamically loads up to 20 distinct "zones" (or apps).
 
-Each zone is a blank slate, a pocket universe waiting for a creator to bring it to life. The challenge is to build something amazing—a mini-game, a piece of art, a useful tool, a stunning animation—entirely within the confines of one of these 120x120 pixel squares. It's a test of creativity, skill, and the ability to make a big impact in a small space.
+Each zone is a blank slate, a pocket universe waiting for a creator to bring it to life. The challenge is to build something amazing—a mini-game, a piece of art, a useful tool, a stunning animation—entirely within the confines of a `div`. It's a test of creativity, skill, and the ability to make a big impact in a small space.
 
-The goal of this project is to create a vibrant, eclectic, and surprising webpage filled with the diverse creations of many different people. It's a low-stakes, fun way to practice your web development skills and be part of a community project.
+This revamped version introduces a modern frontend with two viewing modes: a **Launchpad** for a clean app-selection experience and a **Grid View** to see all creations at once.
 
-## 🚀 How to Get Started
+## 🚀 New Project Structure
 
-Ready to plant your creative seed? Here’s how you can contribute:
+The project has been refactored for clarity and scalability. Here’s the new structure:
 
-1.  **Fork the Repository**: Start by [forking this project](https://github.com/your-username/Sproutify/fork) to your own GitHub account. This creates your own copy of the garden where you can work freely.
+```
+Sproutify/
+├── css/
+│   └── style.css       # All main styles for the shell interface
+├── js/
+│   └── main.js         # All main JavaScript for the shell interface
+├── index.html          # The main HTML skeleton and zone content storage
+└── README.md           # This file
+```
 
-2.  **Clone Your Fork**: Clone your forked repository to your local machine.
-    ```bash
-    git clone https://github.com/YOUR_USERNAME/Sproutify.git
-    ```
+- **`index.html`**: Now only contains the basic page structure and, importantly, the `#zone-content-storage` div where all user-created zones live.
+- **`css/style.css`**: Handles the look and feel of the main interface (background, clock, launchpad, modal, etc.). It does NOT contain styles for the content *inside* the zones.
+- **`js/main.js`**: Powers the dynamic features: clock, view switching, settings, and loading zones into the modal or grid view.
 
-3.  **Pick an Empty Zone**: Open the `index.html` file in your favorite code editor. Look for a zone that hasn't been claimed yet. An empty zone will look like this:
+## 📫 How to Contribute
+
+Ready to plant your creative seed? Here’s how you can contribute to the new Sproutify:
+
+1.  **Fork & Clone**: Fork the project and clone it to your local machine.
+
+2.  **Find an Empty Zone**: Open `index.html`. Scroll down to the `<div id="zone-content-storage">`. Find an empty zone, which looks like this:
     ```html
-    <div class="zone">Zone 1</div>
-    ```
-    Pick one and replace the text with your creation!
-
-4.  **Start Creating!**: This is where the fun begins. You have complete freedom within your chosen `div`. Add HTML, CSS, and JavaScript to build your project. Remember to keep all your work contained within that single zone.
-
-## Rules of the Garden
-
-To ensure our digital garden remains a beautiful and welcoming place for everyone, please adhere to the following guidelines:
-
-1.  **Respect the Boundaries**: Your creation **must** be contained entirely within your chosen zone's `div`. Do not write code that modifies the overall layout, affects other zones, or breaks the page structure.
-
-2.  **Keep it Self-Contained**: All your HTML should go inside your chosen `<div class="zone">`. All CSS should be added to the main `<style>` tag in the `<head>`, preferably prefixed with a unique ID or class for your zone to prevent conflicts (e.g., `#zone-5-my-creation`). All JavaScript should be added within a new `<script>` tag at the end of the `<body>`.
-
-3.  **One Zone at a Time**: To give everyone a fair chance to participate, please only claim one zone per pull request. Once your contribution has been merged, you are more than welcome to come back and claim another!
-
-4.  **Be Original and Creative**: This is a chance to showcase your skills and imagination. Build something you're proud of, whether it's big or small.
-
-5.  **Keep it Safe for Everyone**: All content must be appropriate for a general audience. No offensive material, trackers, or malicious code will be accepted.
-
-## 💡 Inspiration Station
-
-Not sure what to build? Here are a few ideas to get your creative juices flowing:
-
-*   **Mini-Games**:
-    *   A tiny Tic-Tac-Toe board.
-    *   A simple clicker game.
-    *   A small memory-matching puzzle.
-*   **Art & Visuals**:
-    *   A beautiful piece of CSS art.
-    *   A generative art piece that creates a new pattern on each page load.
-    *   A cool, looping animation.
-*   **Useful Micro-Tools**:
-    *   A tiny calculator.
-    *   A hex code to RGB converter.
-    *   A mini character counter for tweets.
-*   **Interactive Experiences**:
-    *   A "magic 8-ball" that gives a random answer.
-    *   A tiny, interactive story.
-    *   A virtual pet you can interact with.
-
-## 📫 Submitting Your Creation
-
-Once your masterpiece is complete, it's time to share it with the world!
-
-1.  **Commit Your Changes**: Save your work and commit it with a clear and descriptive message.
-    ```bash
-    git add index.html
-    git commit -m "Feat: Add a mini-game to Zone 5"
+    <div class="zone-X" data-zone-name="Zone X">Zone X</div>
     ```
 
-2.  **Push to Your Fork**: Push your committed changes to your forked repository on GitHub.
-    ```bash
-    git push origin main
+3.  **Add Your Creation**: 
+    - Replace the placeholder text (`Zone X`) with your HTML content.
+    - **Crucially, all your CSS and JS must be self-contained within your zone's `div`**. 
+    - Add CSS inside a `<style>` tag.
+    - Add JavaScript inside a `<script>` tag. It's highly recommended to wrap your JS in an IIFE `(function() { ... })();` to avoid polluting the global scope.
+
+4.  **Update Zone Metadata**:
+    - Change the `data-zone-name` attribute to the name of your app. This name will appear in the Launchpad.
+    ```html
+    <div class="zone-5" data-zone-name="My Awesome App">
+        <!-- Your content, styles, and scripts here -->
+    </div>
     ```
 
-3.  **Open a Pull Request**: Navigate to the original Sproutify repository and you will see a prompt to create a pull request from your fork.
-    *   In your pull request title, clearly state which zone you've claimed (e.g., "Claiming Zone 5").
-    *   In the description, briefly describe your creation. A screenshot or GIF is always welcome!
+5.  **(Optional) Add a Custom Icon**:
+    - Open `js/main.js` and find the `initialize` function.
+    - Inside the `switch` statement for `zoneId`, add a new `case` for your zone number and provide a URL to your icon.
+    ```javascript
+    // ... inside the switch statement
+    case 5: // Your zone number
+        iconImageHTML = `<img src="https://your-icon-url.com/icon.png" class="app-icon-img">`;
+        break;
+    ```
 
-Your contribution will be reviewed and, if it follows the rules, merged into the main project for everyone to see.
+6.  **Commit & Pull Request**: Commit your changes and open a pull request. Please describe your creation and which zone you've claimed.
 
-## 📜 License
+## 📜 Rules of the Garden
 
-This project is licensed under the **MIT License**. By contributing, you agree that your contributions will be licensed under its terms. See the `LICENSE` file for more details.
+1.  **Respect the Boundaries**: Your creation **must** be contained entirely within your chosen zone's `div`. Do not write code that tries to modify the main page layout (e.g., `document.body.style = ...`).
+2.  **Keep it Self-Contained**: All HTML, CSS, and JS for your app must be inside your one `div`. This is how the project stays modular.
+3.  **Be Original and Keep it Safe**: All content must be appropriate for a general audience. No offensive material, trackers, or malicious code.
 
 ---
 

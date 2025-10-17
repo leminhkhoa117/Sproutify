@@ -3,957 +3,362 @@
 
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chào mừng đến với Sproutify</title>
-    <!-- Import Google Fonts - Be Vietnam Pro với hỗ trợ tiếng Việt -->
+    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;600;700;800&display=swap" rel="stylesheet">
-    <style>
-        * {
-            font-family: 'Be Vietnam Pro', sans-serif;
-        }
-        
-        .welcome {
-            text-align: center;
-            padding: 40px 0 20px 0;
-            background: #4caf50;
-            color: white;
-        }
-    </style>
+    <!-- Custom Stylesheet -->
+    <link rel="stylesheet" href="css/style.css">
 </head>
 
 <body>
-    <div class="welcome">
-        <h1>Chào mừng đến với Sproutify!</h1>
-        <p>Hãy chọn một zone bên dưới để bắt đầu.</p>
-    </div>
-    <!-- Tạo 20 zone -->
-    <!-- Zone 1 -->
-    <div class="zone-1">
-        <div id="game-widget-container">
-            <!-- Tất cả CSS của game được gói gọn trong này để không ảnh hưởng trang của bạn -->
-            <style>
-                #game-widget-container {
-                    display: flex;
-                    flex-direction: column;
-                    justify-content: center;
-                    align-items: center;
-                    background-color: #1a1a1a;
-                    font-family: 'Be Vietnam Pro', sans-serif;
-                    color: white;
-                    padding: 30px;
-                    border-radius: 20px;
-                    border: 2px solid white;
-                }
 
-                #game-widget-container h1 {
-                    font-size: 2em;
-                    color: #FFD700;
-                    text-shadow: 3px 3px 0px #000;
-                    margin-top: 0;
-                }
-
-                #game-widget-container #game-container {
-                    border: 4px solid #fff;
-                    border-radius: 12px;
-                    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.7);
-                    overflow: hidden;
-                    position: relative;
-                    background-color: #000;
-                }
-
-                #game-widget-container canvas {
-                    display: block;
-                    image-rendering: -moz-crisp-edges;
-                    image-rendering: -webkit-crisp-edges;
-                    image-rendering: pixelated;
-                    image-rendering: crisp-edges;
-                }
-
-                #game-widget-container #ui-container {
-                    position: absolute;
-                    top: 0;
-                    left: 0;
-                    width: 100%;
-                    height: 100%;
-                    pointer-events: none;
-                    display: flex;
-                    flex-direction: column;
-                    justify-content: space-between;
-                    padding: 20px;
-                    box-sizing: border-box;
-                }
-
-                #game-widget-container #score-display {
-                    font-size: 2em;
-                    font-weight: 700;
-                    color: #fff;
-                    text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.8);
-                }
-
-                #game-widget-container #controls-info {
-                    position: absolute;
-                    bottom: 15px;
-                    left: 50%;
-                    transform: translateX(-50%);
-                    background: rgba(0, 0, 0, 0.6);
-                    padding: 8px 15px;
-                    border-radius: 8px;
-                    text-align: center;
-                    font-size: 0.8em;
-                }
-
-                #game-widget-container .game-overlay {
-                    position: absolute;
-                    top: 0;
-                    left: 0;
-                    width: 100%;
-                    height: 100%;
-                    background: rgba(0, 0, 0, 0.8);
-                    color: white;
-                    display: flex;
-                    flex-direction: column;
-                    justify-content: center;
-                    align-items: center;
-                    font-size: 1.5em;
-                    z-index: 10;
-                    text-align: center;
-                }
-
-                #game-widget-container #game-over-screen {
-                    display: none;
-                    /* Ẩn ban đầu */
-                }
-
-                #game-widget-container #game-over-screen h2 {
-                    font-size: 3em;
-                    color: #FF4500;
-                    margin: 0;
-                }
-
-                #game-widget-container #game-over-screen p {
-                    font-size: 1.5em;
-                    margin-top: 10px;
-                }
-
-                #game-widget-container #restart-button {
-                    margin-top: 30px;
-                    padding: 15px 30px;
-                    font-family: 'Be Vietnam Pro', sans-serif;
-                    font-size: 1em;
-                    font-weight: 700;
-                    color: #1a1a1a;
-                    background: #FFD700;
-                    border: 4px solid white;
-                    border-radius: 10px;
-                    cursor: pointer;
-                    transition: background 0.2s, transform 0.2s;
-                }
-
-                #game-widget-container #restart-button:hover {
-                    background: #fff;
-                    transform: scale(1.05);
-                }
-            </style>
-
-            <!-- Phần HTML của game -->
-            <h1>Kẻ Mạo Danh Vũ Trụ</h1>
-            <div id="game-container">
-                <div id="loading-screen" class="game-overlay">ĐANG TẢI...</div>
-                <div id="game-over-screen" class="game-overlay">
-                    <h2>GAME OVER</h2>
-                    <p id="final-score">ĐIỂM CỦA BẠN: 0</p>
-                    <button id="restart-button">CHƠI LẠI</button>
-                </div>
-                <canvas id="gameCanvas" width="1000" height="600"></canvas>
-                <div id="ui-container">
-                    <div id="score-display">ĐIỂM: 0</div>
-                    <div id="controls-info">
-                        ← → DI CHUYỂN | ↑ NHẢY | 'X' BẮN
+    <!-- Container for original zone content, hidden from view -->
+    <div id="zone-content-storage">
+        <div class="zone-1" data-zone-name="Kẻ Mạo Danh Vũ Trụ">
+            <div id="game-widget-container">
+                <style>
+                    #game-widget-container { display: flex; flex-direction: column; justify-content: center; align-items: center; background-color: #1a1a1a; font-family: 'Be Vietnam Pro', sans-serif; color: white; padding: 30px; border-radius: 20px; border: 2px solid white; }
+                    #game-widget-container h1 { font-size: 2em; color: #FFD700; text-shadow: 3px 3px 0px #000; margin-top: 0; }
+                    #game-widget-container #game-container { border: 4px solid #fff; border-radius: 12px; box-shadow: 0 10px 25px rgba(0, 0, 0, 0.7); overflow: hidden; position: relative; background-color: #000; }
+                    #game-widget-container canvas { display: block; image-rendering: pixelated; image-rendering: crisp-edges; width: 100%; height: auto; }
+                    #game-widget-container #ui-container { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; display: flex; flex-direction: column; justify-content: space-between; padding: 20px; box-sizing: border-box; }
+                    #game-widget-container #score-display { font-size: 2em; font-weight: 700; color: #fff; text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.8); }
+                    #game-widget-container #controls-info { position: absolute; bottom: 15px; left: 50%; transform: translateX(-50%); background: rgba(0, 0, 0, 0.6); padding: 8px 15px; border-radius: 8px; text-align: center; font-size: 0.8em; }
+                    #game-widget-container .game-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.8); color: white; display: flex; flex-direction: column; justify-content: center; align-items: center; font-size: 1.5em; z-index: 10; text-align: center; }
+                    #game-widget-container #game-over-screen { display: none; }
+                    #game-widget-container #game-over-screen h2 { font-size: 3em; color: #FF4500; margin: 0; }
+                    #game-widget-container #restart-button { margin-top: 30px; padding: 15px 30px; font-family: 'Be Vietnam Pro', sans-serif; font-size: 1em; font-weight: 700; color: #1a1a1a; background: #FFD700; border: 4px solid white; border-radius: 10px; cursor: pointer; transition: background 0.2s, transform 0.2s; pointer-events: all; }
+                    #game-widget-container #restart-button:hover { background: #fff; transform: scale(1.05); }
+                </style>
+                <h1>Kẻ Mạo Danh Vũ Trụ</h1>
+                <div id="game-container">
+                    <div id="loading-screen" class="game-overlay">ĐANG TẢI...</div>
+                    <div id="game-over-screen" class="game-overlay">
+                        <h2>GAME OVER</h2>
+                        <p id="final-score">ĐIỂM CỦA BẠN: 0</p>
+                        <button id="restart-button">CHƠI LẠI</button>
+                    </div>
+                    <canvas id="gameCanvas" width="1000" height="600"></canvas>
+                    <div id="ui-container">
+                        <div id="score-display">ĐIỂM: 0</div>
+                        <div id="controls-info">← → DI CHUYỂN | ↑ NHẢY | 'X' BẮN</div>
                     </div>
                 </div>
-            </div>
+                <script>
+                    (function() {
+                        const container = document.currentScript.closest('#game-widget-container');
+                        if (!container) return;
+                        const canvas = container.querySelector('#gameCanvas');
+                        const ctx = canvas.getContext('2d');
+                        const scoreDisplay = container.querySelector('#score-display');
+                        const controlsInfo = container.querySelector('#controls-info');
+                        const loadingScreen = container.querySelector('#loading-screen');
+                        const gameOverScreen = container.querySelector('#game-over-screen');
+                        const finalScoreDisplay = container.querySelector('#final-score');
+                        const restartButton = container.querySelector('#restart-button');
+                        
+                        setTimeout(() => {
+                            controlsInfo.style.transition = 'opacity 1s';
+                            controlsInfo.style.opacity = '0';
+                        }, 6000);
 
-            <!-- Phần JavaScript của game -->
-            <script>
-                // Để đảm bảo script chỉ chạy khi component đã ở trong trang,
-                // chúng ta sẽ tìm các element bên trong widget này.
-                const widgetContainer = document.getElementById('game-widget-container');
-                const canvas = widgetContainer.querySelector('#gameCanvas');
-                const ctx = canvas.getContext('2d');
-                const scoreDisplay = widgetContainer.querySelector('#score-display');
-                const controlsInfo = widgetContainer.querySelector('#controls-info');
-                const loadingScreen = widgetContainer.querySelector('#loading-screen');
-                const gameOverScreen = widgetContainer.querySelector('#game-over-screen');
-                const finalScoreDisplay = widgetContainer.querySelector('#final-score');
-                const restartButton = widgetContainer.querySelector('#restart-button');
+                        const GRAVITY = 0.6;
+                        let score = 0;
+                        const playerImageUrl = 'https://i.redd.it/9kvk25sh2sn51.png';
+                        const enemyImageUrl = 'https://i.redd.it/tns1c0hs59fa1.png';
+                        const backgroundImageUrl = 'https://i.redd.it/n9yf3an9hzq51.png';
+                        const playerImage = new Image();
+                        const enemyImage = new Image();
+                        const backgroundImage = new Image();
+                        playerImage.crossOrigin = "Anonymous";
+                        backgroundImage.crossOrigin = "Anonymous";
+                        enemyImage.crossOrigin = "Anonymous";
 
+                        let assetsLoaded = 0;
+                        const totalAssets = 3;
+                        let gameLoopId = null;
 
-                setTimeout(() => {
-                    controlsInfo.style.transition = 'opacity 1s';
-                    controlsInfo.style.opacity = '0';
-                }, 6000);
-
-                const GRAVITY = 0.6;
-                let score = 0;
-
-                const playerImageUrl =
-                    'https://i.redd.it/9kvk25sh2sn51.png';
-                const enemyImageUrl =
-                    'https://i.redd.it/tns1c0hs59fa1.png';
-                const backgroundImageUrl =
-                    'https://i.redd.it/n9yf3an9hzq51.png';
-
-                const playerImage = new Image();
-                const enemyImage = new Image();
-                const backgroundImage = new Image();
-                playerImage.crossOrigin = "Anonymous";
-                backgroundImage.crossOrigin = "Anonymous";
-                enemyImage.crossOrigin = "Anonymous";
-
-
-                let assetsLoaded = 0;
-                const totalAssets = 3;
-                let gameLoopId = null;
-
-                function assetLoaded() {
-                    assetsLoaded++;
-                    if (assetsLoaded === totalAssets) {
-                        loadingScreen.style.display = 'none';
-                        gameLoopId = requestAnimationFrame(animate);
-                    }
-                }
-                playerImage.onload = assetLoaded;
-                enemyImage.onload = assetLoaded;
-                backgroundImage.onload = assetLoaded;
-
-                playerImage.onerror = () => {
-                    console.error("Lỗi tải ảnh nhân vật.");
-                    loadingScreen.textContent = "LỖI TẢI ẢNH";
-                };
-                enemyImage.onerror = () => {
-                    console.error("Lỗi tải ảnh quái vật.");
-                    loadingScreen.textContent = "LỖI TẢI ẢNH";
-                };
-                backgroundImage.onerror = () => {
-                    console.error("Lỗi tải ảnh nền.");
-                    loadingScreen.textContent = "LỖI TẢI ẢNH";
-                };
-
-                playerImage.src = playerImageUrl;
-                enemyImage.src = enemyImageUrl;
-                backgroundImage.src = backgroundImageUrl;
-
-                class Player {
-                    constructor() {
-                        this.width = 70;
-                        this.height = 70;
-                        this.position = {
-                            x: 100,
-                            y: canvas.height - this.height
-                        };
-                        this.velocity = {
-                            x: 0,
-                            y: 0
-                        };
-                        this.speed = 7;
-                        this.jumpPower = -17;
-                        this.onGround = false;
-                        this.facing = 'right';
-                        this.image = playerImage;
-                    }
-
-                    draw() {
-                        ctx.save();
-                        if (this.facing === 'left') {
-                            ctx.scale(-1, 1);
-                            ctx.drawImage(this.image, -this.position.x - this.width, this.position.y, this.width,
-                                this.height);
-                        } else {
-                            ctx.drawImage(this.image, this.position.x, this.position.y, this.width, this.height);
-                        }
-                        ctx.restore();
-                    }
-
-                    update() {
-                        this.draw();
-                        this.position.x += this.velocity.x;
-                        this.position.y += this.velocity.y;
-
-                        if (this.position.y + this.height + this.velocity.y < canvas.height) {
-                            this.velocity.y += GRAVITY;
-                            this.onGround = false;
-                        } else {
-                            this.velocity.y = 0;
-                            this.position.y = canvas.height - this.height;
-                            this.onGround = true;
-                        }
-
-                        if (this.position.x < 0) this.position.x = 0;
-                        if (this.position.x + this.width > canvas.width) this.position.x = canvas.width - this
-                        .width;
-                    }
-                }
-
-                class Projectile {
-                    constructor(x, y, direction) {
-                        this.position = {
-                            x,
-                            y
-                        };
-                        this.velocity = {
-                            x: direction === 'right' ? 15 : -15,
-                            y: 0
-                        };
-                        this.radius = 6;
-                        this.color = '#FF4500';
-                        this.shadowColor = 'rgba(255, 255, 0, 0.7)';
-                    }
-
-                    draw() {
-                        ctx.save();
-                        ctx.shadowColor = this.shadowColor;
-                        ctx.shadowBlur = 10;
-                        ctx.beginPath();
-                        ctx.arc(this.position.x, this.position.y, this.radius, 0, Math.PI * 2);
-                        ctx.fillStyle = this.color;
-                        ctx.fill();
-                        ctx.closePath();
-                        ctx.restore();
-                    }
-
-                    update() {
-                        this.draw();
-                        this.position.x += this.velocity.x;
-                    }
-                }
-
-                class Enemy {
-                    constructor(forceRightSide = false) {
-                        this.image = enemyImage;
-                        this.width = 64;
-                        this.height = 64;
-                        this.radius = 30;
-                        this.speed = Math.random() * 1.5 + 1;
-                        this.onGround = false;
-
-                        this.spawnType = Math.random() < 0.5 ? 'top' : 'side';
-
-                        if (this.spawnType === 'top') {
-                            this.position = {
-                                x: Math.random() * (canvas.width - this.width),
-                                y: 0 - this.height
-                            };
-                            this.velocity = {
-                                x: 0,
-                                y: 0
-                            };
-                        } else { // 'side'
-                            // Nếu forceRightSide = true, luôn xuất hiện từ bên phải
-                            const side = forceRightSide ? false : Math.random() < 0.5;
-                            this.position = {
-                                x: side ? 0 - this.width : canvas.width,
-                                y: canvas.height - this.height
-                            };
-                            this.velocity = {
-                                x: side ? this.speed * 2 : -this.speed * 2,
-                                y: 0
-                            };
-                            this.onGround = true; // Quái vật bên hông đã ở trên mặt đất
-                        }
-                    }
-
-                    draw() {
-                        ctx.save();
-                        // Lật ảnh nếu kẻ địch đang đi về bên phải
-                        if (this.velocity.x > 0) {
-                            ctx.scale(-1, 1);
-                            ctx.drawImage(this.image, -this.position.x - this.width, this.position.y, this.width, this.height);
-                        } else {
-                            ctx.drawImage(this.image, this.position.x, this.position.y, this.width, this.height);
-                        }
-                        ctx.restore();
-                    }
-
-                    update() {
-                        this.draw();
-
-                        if (this.spawnType === 'top' && !this.onGround) {
-                            this.velocity.y += GRAVITY;
-                            if (this.position.y + this.height + this.velocity.y >= canvas.height) {
-                                this.velocity.y = 0;
-                                this.position.y = canvas.height - this.height;
-                                this.onGround = true;
+                        function assetLoaded() {
+                            assetsLoaded++;
+                            if (assetsLoaded === totalAssets) {
+                                loadingScreen.style.display = 'none';
+                                gameLoopId = requestAnimationFrame(animate);
                             }
                         }
+                        playerImage.onload = assetLoaded;
+                        enemyImage.onload = assetLoaded;
+                        backgroundImage.onload = assetLoaded;
+                        playerImage.src = playerImageUrl;
+                        enemyImage.src = enemyImageUrl;
+                        backgroundImage.src = backgroundImageUrl;
 
-                        if (this.onGround && this.spawnType === 'top') {
-                            if (player.position.x > this.position.x) this.velocity.x = this.speed;
-                            else if (player.position.x < this.position.x) this.velocity.x = -this.speed;
-                            else this.velocity.x = 0;
+                        class Player {
+                            constructor() { this.width = 70; this.height = 70; this.position = { x: 100, y: canvas.height - this.height }; this.velocity = { x: 0, y: 0 }; this.speed = 7; this.jumpPower = -17; this.onGround = false; this.facing = 'right'; this.image = playerImage; }
+                            draw() { ctx.save(); if (this.facing === 'left') { ctx.scale(-1, 1); ctx.drawImage(this.image, -this.position.x - this.width, this.position.y, this.width, this.height); } else { ctx.drawImage(this.image, this.position.x, this.position.y, this.width, this.height); } ctx.restore(); }
+                            update() { this.draw(); this.position.x += this.velocity.x; this.position.y += this.velocity.y; if (this.position.y + this.height + this.velocity.y < canvas.height) { this.velocity.y += GRAVITY; this.onGround = false; } else { this.velocity.y = 0; this.position.y = canvas.height - this.height; this.onGround = true; } if (this.position.x < 0) this.position.x = 0; if (this.position.x + this.width > canvas.width) this.position.x = canvas.width - this.width; }
+                        }
+                        class Projectile {
+                            constructor(x, y, direction) { this.position = { x, y }; this.velocity = { x: direction === 'right' ? 15 : -15, y: 0 }; this.radius = 6; this.color = '#FF4500'; this.shadowColor = 'rgba(255, 255, 0, 0.7)'; }
+                            draw() { ctx.save(); ctx.shadowColor = this.shadowColor; ctx.shadowBlur = 10; ctx.beginPath(); ctx.arc(this.position.x, this.position.y, this.radius, 0, Math.PI * 2); ctx.fillStyle = this.color; ctx.fill(); ctx.closePath(); ctx.restore(); }
+                            update() { this.draw(); this.position.x += this.velocity.x; }
+                        }
+                        class Enemy {
+                            constructor(forceRightSide = false) { this.image = enemyImage; this.width = 64; this.height = 64; this.radius = 30; this.speed = Math.random() * 1.5 + 1; this.onGround = false; this.spawnType = Math.random() < 0.5 ? 'top' : 'side'; if (this.spawnType === 'top') { this.position = { x: Math.random() * (canvas.width - this.width), y: 0 - this.height }; this.velocity = { x: 0, y: 0 }; } else { const side = forceRightSide ? false : Math.random() < 0.5; this.position = { x: side ? 0 - this.width : canvas.width, y: canvas.height - this.height }; this.velocity = { x: side ? this.speed * 2 : -this.speed * 2, y: 0 }; this.onGround = true; } }
+                            draw() { ctx.save(); if (this.velocity.x > 0) { ctx.scale(-1, 1); ctx.drawImage(this.image, -this.position.x - this.width, this.position.y, this.width, this.height); } else { ctx.drawImage(this.image, this.position.x, this.position.y, this.width, this.height); } ctx.restore(); }
+                            update() { this.draw(); if (this.spawnType === 'top' && !this.onGround) { this.velocity.y += GRAVITY; if (this.position.y + this.height + this.velocity.y >= canvas.height) { this.velocity.y = 0; this.position.y = canvas.height - this.height; this.onGround = true; } } if (this.onGround && this.spawnType === 'top') { if (player.position.x > this.position.x) this.velocity.x = this.speed; else if (player.position.x < this.position.x) this.velocity.x = -this.speed; else this.velocity.x = 0; } this.position.x += this.velocity.x; this.position.y += this.velocity.y; }
+                        }
+                        class Particle { constructor(x, y, radius, color, velocity) { this.position = { x, y }; this.velocity = velocity; this.radius = radius; this.color = color; this.opacity = 1; } draw() { ctx.save(); ctx.globalAlpha = this.opacity; ctx.beginPath(); ctx.arc(this.position.x, this.position.y, this.radius, 0, Math.PI * 2); ctx.fillStyle = this.color; ctx.fill(); ctx.restore(); } update() { this.draw(); this.position.x += this.velocity.x; this.position.y += this.velocity.y; this.opacity -= 0.025; } }
+
+                        let player, projectiles, enemies, particles, enemySpawnInterval, lastSpawnTime, enemyCount;
+                        const keys = { right: { pressed: false }, left: { pressed: false } };
+                        
+                        function initGame() {
+                            player = new Player();
+                            projectiles = [];
+                            enemies = [];
+                            particles = [];
+                            score = 0;
+                            enemySpawnInterval = 1800;
+                            lastSpawnTime = 0;
+                            enemyCount = 0;
+                            scoreDisplay.textContent = `ĐIỂM: 0`;
+                            gameOverScreen.style.display = 'none';
                         }
 
-                        this.position.x += this.velocity.x;
-                        this.position.y += this.velocity.y;
-                    }
-                }
+                        function spawnEnemies() { enemyCount++; const forceRight = enemyCount <= 3; enemies.push(new Enemy(forceRight)); }
+                        function endGame() { cancelAnimationFrame(gameLoopId); gameLoopId = null; finalScoreDisplay.textContent = `ĐIỂM CỦA BẠN: ${score}`; gameOverScreen.style.display = 'flex'; }
+                        function resetGame() { initGame(); if (!gameLoopId) { gameLoopId = requestAnimationFrame(animate); } }
+                        
+                        restartButton.addEventListener('click', resetGame);
 
-                class Particle {
-                    constructor(x, y, radius, color, velocity) {
-                        this.position = {
-                            x,
-                            y
+                        function animate(timestamp) {
+                            gameLoopId = requestAnimationFrame(animate);
+                            ctx.drawImage(backgroundImage, 0, 0, canvas.width, canvas.height);
+                            player.update();
+                            player.velocity.x = 0;
+                            if (keys.left.pressed) player.velocity.x = -player.speed;
+                            if (keys.right.pressed) player.velocity.x = player.speed;
+                            if (keys.left.pressed) player.facing = 'left';
+                            if (keys.right.pressed) player.facing = 'right';
+                            particles.forEach((p, i) => p.opacity <= 0 ? particles.splice(i, 1) : p.update());
+                            projectiles.forEach((p, i) => (p.position.x < 0 || p.position.x > canvas.width) ? setTimeout(() => projectiles.splice(i, 1), 0) : p.update());
+                            if (timestamp - lastSpawnTime > enemySpawnInterval) { spawnEnemies(); lastSpawnTime = timestamp; if (enemySpawnInterval > 500) enemySpawnInterval -= 20; }
+                            enemies.forEach((enemy, enemyIndex) => {
+                                enemy.update();
+                                if (player.position.x < enemy.position.x + enemy.width && player.position.x + player.width > enemy.position.x && player.position.y < enemy.position.y + enemy.height && player.position.y + player.height > enemy.position.y) { endGame(); }
+                                projectiles.forEach((projectile, projectileIndex) => {
+                                    const dist = Math.hypot(projectile.position.x - (enemy.position.x + enemy.width / 2), projectile.position.y - (enemy.position.y + enemy.height / 2));
+                                    if (dist - enemy.radius - projectile.radius < 1) {
+                                        for (let i = 0; i < 15; i++) { particles.push(new Particle(projectile.position.x, projectile.position.y, Math.random() * 3, '#00FFFF', { x: (Math.random() - 0.5) * 7, y: (Math.random() - 0.5) * 7 })); }
+                                        score += 100;
+                                        scoreDisplay.textContent = `ĐIỂM: ${score}`;
+                                        setTimeout(() => { if (enemies.includes(enemy)) enemies.splice(enemyIndex, 1); if (projectiles.includes(projectile)) projectiles.splice(projectileIndex, 1); }, 0);
+                                    }
+                                });
+                            });
+                        }
+
+                        const keydownHandler = ({ key, preventDefault }) => {
+                            if (!gameLoopId) return;
+                            switch (key) {
+                                case 'a': case 'ArrowLeft': keys.left.pressed = true; preventDefault(); break;
+                                case 'd': case 'ArrowRight': keys.right.pressed = true; preventDefault(); break;
+                                case 'w': case 'ArrowUp': case ' ': if (player.onGround) player.velocity.y = player.jumpPower; preventDefault(); break;
+                                case 'x': projectiles.push(new Projectile(player.position.x + player.width / 2, player.position.y + player.height / 2, player.facing)); break;
+                            }
                         };
-                        this.velocity = velocity;
-                        this.radius = radius;
-                        this.color = color;
-                        this.opacity = 1;
-                    }
-
-                    draw() {
-                        ctx.save();
-                        ctx.globalAlpha = this.opacity;
-                        ctx.beginPath();
-                        ctx.arc(this.position.x, this.position.y, this.radius, 0, Math.PI * 2);
-                        ctx.fillStyle = this.color;
-                        ctx.fill();
-                        ctx.restore();
-                    }
-
-                    update() {
-                        this.draw();
-                        this.position.x += this.velocity.x;
-                        this.position.y += this.velocity.y;
-                        this.opacity -= 0.025;
-                    }
-                }
-
-                let player = new Player();
-                let projectiles = [];
-                let enemies = [];
-                let particles = [];
-                let enemySpawnInterval = 1800;
-                let lastSpawnTime = 0;
-                let enemyCount = 0; // Đếm số lượng kẻ địch đã xuất hiện
-
-                const keys = {
-                    right: {
-                        pressed: false
-                    },
-                    left: {
-                        pressed: false
-                    }
-                };
-
-                function spawnEnemies() {
-                    enemyCount++;
-                    // 3 kẻ địch đầu luôn xuất hiện từ bên phải
-                    const forceRight = enemyCount <= 3;
-                    enemies.push(new Enemy(forceRight));
-                }
-
-                function endGame() {
-                    cancelAnimationFrame(gameLoopId);
-                    gameLoopId = null;
-                    finalScoreDisplay.textContent = `ĐIỂM CỦA BẠN: ${score}`;
-                    gameOverScreen.style.display = 'flex';
-                }
-
-                function resetGame() {
-                    player = new Player();
-                    projectiles = [];
-                    enemies = [];
-                    particles = [];
-                    score = 0;
-                    enemySpawnInterval = 1800;
-                    enemyCount = 0; // Reset số lượng kẻ địch
-                    scoreDisplay.textContent = `ĐIỂM: 0`;
-                    score = 0;
-                    enemySpawnInterval = 1800;
-                    scoreDisplay.textContent = `ĐIỂM: 0`;
-                    gameOverScreen.style.display = 'none';
-                    if (!gameLoopId) {
-                        gameLoopId = requestAnimationFrame(animate);
-                    }
-                }
-                restartButton.addEventListener('click', resetGame);
-
-
-                function animate(timestamp) {
-                    gameLoopId = requestAnimationFrame(animate);
-                    ctx.drawImage(backgroundImage, 0, 0, canvas.width, canvas.height);
-
-                    player.update();
-
-                    player.velocity.x = 0;
-                    if (keys.left.pressed) player.velocity.x = -player.speed;
-                    if (keys.right.pressed) player.velocity.x = player.speed;
-                    if (keys.left.pressed) player.facing = 'left';
-                    if (keys.right.pressed) player.facing = 'right';
-
-                    particles.forEach((p, i) => p.opacity <= 0 ? particles.splice(i, 1) : p.update());
-                    projectiles.forEach((p, i) => (p.position.x < 0 || p.position.x > canvas.width) ? setTimeout(() =>
-                        projectiles.splice(i, 1), 0) : p.update());
-
-                    if (timestamp - lastSpawnTime > enemySpawnInterval) {
-                        spawnEnemies();
-                        lastSpawnTime = timestamp;
-                        if (enemySpawnInterval > 500) enemySpawnInterval -= 20;
-                    }
-
-                    enemies.forEach((enemy, enemyIndex) => {
-                        enemy.update();
-
-                        // Va chạm người chơi - quái vật
-                        if (
-                            player.position.x < enemy.position.x + enemy.width &&
-                            player.position.x + player.width > enemy.position.x &&
-                            player.position.y < enemy.position.y + enemy.height &&
-                            player.position.y + player.height > enemy.position.y
-                        ) {
-                            endGame();
-                        }
-
-                        projectiles.forEach((projectile, projectileIndex) => {
-                            const enemyCenterX = enemy.position.x + enemy.width / 2;
-                            const enemyCenterY = enemy.position.y + enemy.height / 2;
-                            const dist = Math.hypot(projectile.position.x - enemyCenterX, projectile
-                                .position.y - enemyCenterY);
-
-                            if (dist - enemy.radius - projectile.radius < 1) {
-                                for (let i = 0; i < 15; i++) {
-                                    particles.push(new Particle(
-                                        projectile.position.x, projectile.position.y, Math
-                                        .random() * 3, '#00FFFF', {
-                                            x: (Math.random() - 0.5) * 7,
-                                            y: (Math.random() - 0.5) * 7
-                                        }
-                                    ));
-                                }
-                                score += 100;
-                                scoreDisplay.textContent = `ĐIỂM: ${score}`;
-                                setTimeout(() => {
-                                    if (enemies.includes(enemy)) enemies.splice(enemyIndex, 1);
-                                    if (projectiles.includes(projectile)) projectiles.splice(
-                                        projectileIndex, 1);
-                                }, 0);
+                        const keyupHandler = ({ key }) => {
+                            switch (key) {
+                                case 'a': case 'ArrowLeft': keys.left.pressed = false; break;
+                                case 'd': case 'ArrowRight': keys.right.pressed = false; break;
+                            }
+                        };
+                        
+                        window.addEventListener('keydown', keydownHandler);
+                        window.addEventListener('keyup', keyupHandler);
+                        
+                        const observer = new MutationObserver((mutations) => {
+                            if (!document.body.contains(container)) {
+                                window.removeEventListener('keydown', keydownHandler);
+                                window.removeEventListener('keyup', keyupHandler);
+                                cancelAnimationFrame(gameLoopId);
+                                observer.disconnect();
                             }
                         });
-                    });
-                }
+                        observer.observe(document.body, { childList: true, subtree: true });
 
-                const keydownHandler = ({
-                    key
-                }) => {
-                    if (!gameLoopId && key !== 'Enter') return;
-                    switch (key) {
-                        case 'a':
-                        case 'ArrowLeft':
-                            keys.left.pressed = true;
-                            event.preventDefault();
-                            break;
-                        case 'd':
-                        case 'ArrowRight':
-                            keys.right.pressed = true;
-                            event.preventDefault();
-                            break;
-                        case 'w':
-                        case 'ArrowUp':
-                        case ' ':
-                            if (player.onGround) player.velocity.y = player.jumpPower;
-                            event.preventDefault();
-                            break;
-                        case 'x':
-                            projectiles.push(new Projectile(
-                                player.position.x + player.width / 2, player.position.y + player.height / 2,
-                                player.facing
-                                
-                            ));
-                            break;
-                    }
-                };
-                const keyupHandler = ({
-                    key
-                }) => {
-                    switch (key) {
-                        case 'a':
-                        case 'ArrowLeft':
-                            keys.left.pressed = false;
-                            break;
-                        case 'd':
-                        case 'ArrowRight':
-                            keys.right.pressed = false;
-                            break;
-                    }
-                };
-
-                window.addEventListener('keydown', keydownHandler);
-                window.addEventListener('keyup', keyupHandler);
-            </script>
+                        initGame();
+                    })();
+                </script>
+            </div>
         </div>
+        <div class="zone-2" data-zone-name="Đồng hồ Pomodoro">
+            <div id="pomodoro-widget-container">
+                <style>
+                    #pomodoro-widget-container { position: relative; width: 100%; height: 100%; font-family: 'Poppins', sans-serif; color: white; display: flex; flex-direction: column; justify-content: center; align-items: center; overflow: hidden; }
+                    #pomodoro-widget-container .background { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-size: cover; background-position: center; transition: filter 0.5s ease-in-out, transform 15s ease-in-out; transform: scale(1.1); }
+                    #pomodoro-widget-container .overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.4); z-index: 1; }
+                    #pomodoro-widget-container .content { position: relative; z-index: 2; text-align: center; background: rgba(255, 255, 255, 0.1); padding: 30px 50px; border-radius: 20px; backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.2); }
+                    #pomodoro-widget-container #session-name { font-size: 2.5em; font-weight: 700; margin: 0; text-shadow: 2px 2px 8px rgba(0,0,0,0.5); }
+                    #pomodoro-widget-container #timer-display { font-size: 6em; font-weight: 700; margin: 10px 0; text-shadow: 3px 3px 10px rgba(0,0,0,0.5); }
+                    #pomodoro-widget-container .controls button, #pomodoro-widget-container #toggle-settings-pomodoro { font-family: 'Poppins', sans-serif; font-size: 1em; font-weight: 600; color: #333; background: white; border: none; border-radius: 8px; padding: 10px 20px; margin: 0 8px; cursor: pointer; transition: all 0.2s ease; box-shadow: 0 2px 5px rgba(0,0,0,0.2); pointer-events: all; }
+                    #pomodoro-widget-container .controls button:hover, #pomodoro-widget-container #toggle-settings-pomodoro:hover { transform: translateY(-2px); box-shadow: 0 4px 10px rgba(0,0,0,0.3); }
+                    #pomodoro-widget-container #toggle-settings-pomodoro { position: absolute; top: 20px; right: 20px; z-index: 3; }
+                    #pomodoro-widget-container .settings-panel { position: absolute; top: 0; right: -350px; width: 320px; height: 100%; background: rgba(255, 255, 255, 0.95); color: #333; z-index: 10; padding: 20px; box-shadow: -5px 0 20px rgba(0,0,0,0.2); transition: right 0.4s cubic-bezier(0.25, 0.8, 0.25, 1); overflow-y: auto; pointer-events: all; }
+                    #pomodoro-widget-container .settings-panel.open { right: 0; }
+                </style>
+                <div class="background"></div>
+                <div class="overlay"></div>
+                <button id="toggle-settings-pomodoro">Settings</button>
+                <div class="content">
+                    <h2 id="session-name">Pomodoro</h2>
+                    <div id="timer-display">25:00</div>
+                    <div class="controls">
+                        <button id="start-btn">Start</button>
+                        <button id="pause-btn">Pause</button>
+                        <button id="reset-btn">Reset</button>
+                    </div>
+                </div>
+                <div class="settings-panel">
+                    <h3>Settings</h3>
+                    <div class="form-group"><label for="session-name-input">Session Name</label><input type="text" id="session-name-input" value="Pomodoro"></div>
+                    <div class="form-group"><label for="work-duration-input">Work Duration (min)</label><input type="number" id="work-duration-input" value="25" min="1"></div>
+                    <div class="form-group"><label for="break-duration-input">Break Duration (min)</label><input type="number" id="break-duration-input" value="5" min="1"></div>
+                    <div class="form-group"><label for="repeat-input">Repeats</label><input type="number" id="repeat-input" value="4" min="1"></div>
+                    <div class="form-group"><label for="bg-url-input">Background URL</label><input type="text" id="bg-url-input" value="https://images.unsplash.com/photo-1557682250-33bd709cbe85?q=80&w=2070&auto=format&fit=crop"></div>
+                    <button id="apply-settings">Apply</button>
+                </div>
+                <script>
+                    (function() {
+                        const widget = document.currentScript.closest('#pomodoro-widget-container');
+                        if (!widget) return;
+                        const sessionNameDisplay = widget.querySelector('#session-name');
+                        const timerDisplay = widget.querySelector('#timer-display');
+                        const startBtn = widget.querySelector('#start-btn');
+                        const pauseBtn = widget.querySelector('#pause-btn');
+                        const resetBtn = widget.querySelector('#reset-btn');
+                        const toggleBtn = widget.querySelector('#toggle-settings-pomodoro');
+                        const settingsPanel = widget.querySelector('.settings-panel');
+                        const applyBtn = widget.querySelector('#apply-settings');
+                        const background = widget.querySelector('.background');
+                        const sessionNameInput = widget.querySelector('#session-name-input');
+                        const workDurationInput = widget.querySelector('#work-duration-input');
+                        const breakDurationInput = widget.querySelector('#break-duration-input');
+                        const repeatInput = widget.querySelector('#repeat-input');
+                        const bgUrlInput = widget.querySelector('#bg-url-input');
+
+                        let timer, isRunning = false, isWorkSession = true, workDuration = 25 * 60, breakDuration = 5 * 60, repeats = 4, currentRepeats = 0, timeLeft = workDuration;
+                        let bgAnimationInterval;
+
+                        function updateDisplay() {
+                            const minutes = Math.floor(timeLeft / 60);
+                            const seconds = timeLeft % 60;
+                            timerDisplay.textContent = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+                        }
+                        function startTimer() { if (isRunning) return; isRunning = true; timer = setInterval(() => { timeLeft--; updateDisplay(); if (timeLeft <= 0) { clearInterval(timer); isRunning = false; switchSession(); } }, 1000); }
+                        function pauseTimer() { clearInterval(timer); isRunning = false; }
+                        function resetTimer() { pauseTimer(); isWorkSession = true; currentRepeats = 0; timeLeft = workDuration; sessionNameDisplay.textContent = sessionNameInput.value; updateDisplay(); }
+                        function switchSession() { if (isWorkSession) { currentRepeats++; if (currentRepeats >= repeats) { alert("Pomodoro cycle complete!"); resetTimer(); return; } isWorkSession = false; timeLeft = breakDuration; sessionNameDisplay.textContent = "Break"; } else { isWorkSession = true; timeLeft = workDuration; sessionNameDisplay.textContent = sessionNameInput.value; } alert(isWorkSession ? "Break's over! Time for work." : "Work session finished! Time for a break."); startTimer(); }
+                        function applySettings() { workDuration = parseInt(workDurationInput.value) * 60; breakDuration = parseInt(breakDurationInput.value) * 60; repeats = parseInt(repeatInput.value); sessionNameDisplay.textContent = sessionNameInput.value; background.style.backgroundImage = `url('${bgUrlInput.value}')`; resetTimer(); settingsPanel.classList.remove('open'); }
+                        function animateBackground() { background.style.transform = background.style.transform === 'scale(1.1)' ? 'scale(1)' : 'scale(1.1)'; }
+
+                        startBtn.addEventListener('click', startTimer);
+                        pauseBtn.addEventListener('click', pauseTimer);
+                        resetBtn.addEventListener('click', resetTimer);
+                        toggleBtn.addEventListener('click', () => settingsPanel.classList.toggle('open'));
+                        applyBtn.addEventListener('click', applySettings);
+                        
+                        applySettings();
+                        bgAnimationInterval = setInterval(animateBackground, 15000);
+
+                        const observer = new MutationObserver((mutations) => {
+                            if (!document.body.contains(widget)) {
+                                clearInterval(timer);
+                                clearInterval(bgAnimationInterval);
+                                observer.disconnect();
+                            }
+                        });
+                        observer.observe(document.body, { childList: true, subtree: true });
+                    })();
+                </script>
+            </div>
+        </div>
+        <div class="zone-3" data-zone-name="Zone 3">Zone 3</div>
+        <div class="zone-4" data-zone-name="Zone 4">Zone 4</div>
+        <div class="zone-5" data-zone-name="Zone 5">Zone 5</div>
+        <div class="zone-6" data-zone-name="Zone 6">Zone 6</div>
+        <div class="zone-7" data-zone-name="Zone 7">Zone 7</div>
+        <div class="zone-8" data-zone-name="Zone 8">Zone 8</div>
+        <div class="zone-9" data-zone-name="Zone 9">Zone 9</div>
+        <div class="zone-10" data-zone-name="Zone 10">Zone 10</div>
+        <div class="zone-11" data-zone-name="Zone 11">Zone 11</div>
+        <div class="zone-12" data-zone-name="Zone 12">Zone 12</div>
+        <div class="zone-13" data-zone-name="Zone 13">Zone 13</div>
+        <div class="zone-14" data-zone-name="Zone 14">Zone 14</div>
+        <div class="zone-15" data-zone-name="Zone 15">Zone 15</div>
+        <div class="zone-16" data-zone-name="Zone 16">Zone 16</div>
+        <div class="zone-17" data-zone-name="Zone 17">Zone 17</div>
+        <div class="zone-18" data-zone-name="Zone 18">Zone 18</div>
+        <div class="zone-19" data-zone-name="Zone 19">Zone 19</div>
+        <div class="zone-20" data-zone-name="Zone 20">Zone 20</div>
     </div>
-    <!-- Zone 2 -->
-    <div class="zone-2">
-<div id="pomodoro-widget-container">
-    <!-- All CSS for the Pomodoro clock is scoped here -->
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
 
-        #pomodoro-widget-container {
-            position: relative;
-            width: 100%;
-            height: 500px; /* Set a fixed height for the container */
-            font-family: 'Poppins', sans-serif;
-            color: white;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            border-radius: 12px;
-            overflow: hidden;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-        }
-
-        #pomodoro-widget-container .background {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-size: cover;
-            background-position: center;
-            transition: filter 0.5s ease-in-out, transform 15s ease-in-out;
-            transform: scale(1.1); /* Initial scale for animation */
-        }
-
-        #pomodoro-widget-container .overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.4);
-            z-index: 1;
-        }
-
-        #pomodoro-widget-container .content {
-            position: relative;
-            z-index: 2;
-            text-align: center;
-            background: rgba(255, 255, 255, 0.1);
-            padding: 30px 50px;
-            border-radius: 20px;
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-        }
-
-        #pomodoro-widget-container #session-name {
-            font-size: 2.5em;
-            font-weight: 700;
-            margin: 0;
-            text-shadow: 2px 2px 8px rgba(0,0,0,0.5);
-        }
-
-        #pomodoro-widget-container #timer-display {
-            font-size: 6em;
-            font-weight: 700;
-            margin: 10px 0;
-            text-shadow: 3px 3px 10px rgba(0,0,0,0.5);
-        }
-
-        #pomodoro-widget-container .controls button, #pomodoro-widget-container #toggle-settings {
-            font-family: 'Poppins', sans-serif;
-            font-size: 1em;
-            font-weight: 600;
-            color: #333;
-            background: white;
-            border: none;
-            border-radius: 8px;
-            padding: 10px 20px;
-            margin: 0 8px;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-        }
-
-        #pomodoro-widget-container .controls button:hover, #pomodoro-widget-container #toggle-settings:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
-        }
-        
-        #pomodoro-widget-container #toggle-settings {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            z-index: 3;
-        }
-
-        #pomodoro-widget-container .settings-panel {
-            position: absolute;
-            top: 0;
-            right: -350px; /* Start off-screen */
-            width: 320px;
-            height: 100%;
-            background: rgba(255, 255, 255, 0.95);
-            color: #333;
-            z-index: 10;
-            padding: 20px;
-            box-shadow: -5px 0 20px rgba(0,0,0,0.2);
-            transition: right 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
-            overflow-y: auto;
-        }
-        
-        #pomodoro-widget-container .settings-panel.open {
-            right: 0;
-        }
-
-        #pomodoro-widget-container .settings-panel h3 {
-            margin-top: 0;
-            text-align: center;
-            font-size: 1.5em;
-        }
-
-        #pomodoro-widget-container .settings-panel .form-group {
-            margin-bottom: 15px;
-        }
-
-        #pomodoro-widget-container .settings-panel label {
-            display: block;
-            margin-bottom: 5px;
-            font-weight: 600;
-        }
-
-        #pomodoro-widget-container .settings-panel input {
-            width: 100%;
-            padding: 8px;
-            border-radius: 5px;
-            border: 1px solid #ccc;
-            box-sizing: border-box;
-        }
-        
-        #pomodoro-widget-container .settings-panel #apply-settings {
-             width: 100%;
-             padding: 12px;
-             font-size: 1.1em;
-             background: #4caf50;
-             color: white;
-             border: none;
-             border-radius: 8px;
-             cursor: pointer;
-             transition: background 0.2s;
-        }
-        
-        #pomodoro-widget-container .settings-panel #apply-settings:hover {
-            background: #45a049;
-        }
-
-    </style>
-
-    <!-- HTML Structure -->
-    <div class="background"></div>
-    <div class="overlay"></div>
-    <button id="toggle-settings">Settings</button>
-
-    <div class="content">
-        <h2 id="session-name">Pomodoro</h2>
-        <div id="timer-display">25:00</div>
-        <div class="controls">
-            <button id="start-btn">Start</button>
-            <button id="pause-btn">Pause</button>
-            <button id="reset-btn">Reset</button>
+    <!-- Main App Structure -->
+    <div id="app-container">
+        <div id="background-layer" class="app-layer"></div>
+        <div id="content-layer" class="app-layer">
+            <header>
+                <div id="clock-container"></div>
+                <h1>Chào mừng bạn đến với thế giới Sproutify</h1>
+            </header>
+            <main>
+                <div id="launchpad-view" class="view active"></div>
+                <div id="grid-view" class="view"></div>
+            </main>
         </div>
     </div>
 
-    <div class="settings-panel">
-        <h3>Settings</h3>
-        <div class="form-group">
-            <label for="session-name-input">Session Name</label>
-            <input type="text" id="session-name-input" value="Pomodoro">
+    <!-- Modal for displaying individual zones -->
+    <div id="modal-popup">
+        <div id="modal-controls">
+            <button id="modal-fullscreen-btn">⛶</button>
+            <button id="modal-close-btn">×</button>
         </div>
-        <div class="form-group">
-            <label for="work-duration-input">Work Duration (min)</label>
-            <input type="number" id="work-duration-input" value="25" min="1">
-        </div>
-        <div class="form-group">
-            <label for="break-duration-input">Break Duration (min)</label>
-            <input type="number" id="break-duration-input" value="5" min="1">
-        </div>
-        <div class="form-group">
-            <label for="repeat-input">Repeats</label>
-            <input type="number" id="repeat-input" value="4" min="1">
-        </div>
-        <div class="form-group">
-            <label for="bg-url-input">Background URL</label>
-            <input type="text" id="bg-url-input" value="https://images.unsplash.com/photo-1557682250-33bd709cbe85?q=80&w=2070&auto=format&fit=crop">
-        </div>
-        <div class="form-group">
-            <label for="bg-blur-input">Background Blur (px)</label>
-            <input type="range" id="bg-blur-input" min="0" max="20" value="2">
-        </div>
-        <button id="apply-settings">Apply</button>
+        <div id="modal-content"></div>
     </div>
 
-    <!-- JavaScript Logic -->
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const widget = document.getElementById('pomodoro-widget-container');
-            if (!widget) return;
+    <!-- Always-visible UI Elements -->
+    <button id="settings-toggle">⚙️</button>
+    <div id="settings-panel">
+        <button id="settings-close-btn">&times;</button>
+        <h3>Cài đặt Giao diện</h3>
+        <div class="form-group">
+            <label for="bg-url-input">URL Hình nền</label>
+            <input type="text" id="bg-url-input">
+        </div>
+        <div class="form-group">
+            <label for="bg-blur-input">Độ mờ nền (0-20px)</label>
+            <input type="range" id="bg-blur-input" min="0" max="20" step="1">
+        </div>
+        <div class="form-group">
+            <label for="bg-brightness-input">Độ sáng nền (0-1)</label>
+            <input type="range" id="bg-brightness-input" min="0" max="1" step="0.05">
+        </div>
+    </div>
 
-            // DOM Elements
-            const sessionNameDisplay = widget.querySelector('#session-name');
-            const timerDisplay = widget.querySelector('#timer-display');
-            const startBtn = widget.querySelector('#start-btn');
-            const pauseBtn = widget.querySelector('#pause-btn');
-            const resetBtn = widget.querySelector('#reset-btn');
-            const toggleBtn = widget.querySelector('#toggle-settings');
-            const settingsPanel = widget.querySelector('.settings-panel');
-            const applyBtn = widget.querySelector('#apply-settings');
-            const background = widget.querySelector('.background');
+    <div id="view-switcher-container">
+        <label class="switch">
+            <input type="checkbox" id="view-toggle">
+            <span class="slider"></span>
+        </label>
+    </div>
 
-            // Settings Inputs
-            const sessionNameInput = widget.querySelector('#session-name-input');
-            const workDurationInput = widget.querySelector('#work-duration-input');
-            const breakDurationInput = widget.querySelector('#break-duration-input');
-            const repeatInput = widget.querySelector('#repeat-input');
-            const bgUrlInput = widget.querySelector('#bg-url-input');
-            const bgBlurInput = widget.querySelector('#bg-blur-input');
+    <!-- Custom JavaScript -->
+    <script src="js/main.js" defer></script>
 
-            // Timer State
-            let timer;
-            let isRunning = false;
-            let isWorkSession = true;
-            let workDuration = 25 * 60;
-            let breakDuration = 5 * 60;
-            let repeats = 4;
-            let currentRepeats = 0;
-            let timeLeft = workDuration;
-
-            function updateDisplay() {
-                const minutes = Math.floor(timeLeft / 60);
-                const seconds = timeLeft % 60;
-                timerDisplay.textContent = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
-            }
-
-            function startTimer() {
-                if (isRunning) return;
-                isRunning = true;
-                timer = setInterval(() => {
-                    timeLeft--;
-                    updateDisplay();
-                    if (timeLeft <= 0) {
-                        clearInterval(timer);
-                        isRunning = false;
-                        switchSession();
-                    }
-                }, 1000);
-            }
-
-            function pauseTimer() {
-                clearInterval(timer);
-                isRunning = false;
-            }
-
-            function resetTimer() {
-                pauseTimer();
-                isWorkSession = true;
-                currentRepeats = 0;
-                timeLeft = workDuration;
-                sessionNameDisplay.textContent = sessionNameInput.value;
-                updateDisplay();
-            }
-
-            function switchSession() {
-                if (isWorkSession) {
-                    currentRepeats++;
-                    if (currentRepeats >= repeats) {
-                        alert("Pomodoro cycle complete!");
-                        resetTimer();
-                        return;
-                    }
-                    isWorkSession = false;
-                    timeLeft = breakDuration;
-                    sessionNameDisplay.textContent = "Break";
-                } else {
-                    isWorkSession = true;
-                    timeLeft = workDuration;
-                    sessionNameDisplay.textContent = sessionNameInput.value;
-                }
-                alert(isWorkSession ? "Break's over! Time for work." : "Work session finished! Time for a break.");
-                startTimer();
-            }
-
-            function applySettings() {
-                workDuration = parseInt(workDurationInput.value) * 60;
-                breakDuration = parseInt(breakDurationInput.value) * 60;
-                repeats = parseInt(repeatInput.value);
-                sessionNameDisplay.textContent = sessionNameInput.value;
-                
-                background.style.backgroundImage = `url('${bgUrlInput.value}')`;
-                background.style.filter = `blur(${bgBlurInput.value}px)`;
-
-                resetTimer();
-                settingsPanel.classList.remove('open');
-            }
-            
-            function animateBackground() {
-                if (background.style.transform === 'scale(1.1)') {
-                    background.style.transform = 'scale(1)';
-                } else {
-                    background.style.transform = 'scale(1.1)';
-                }
-            }
-
-            // Event Listeners
-            startBtn.addEventListener('click', startTimer);
-            pauseBtn.addEventListener('click', pauseTimer);
-            resetBtn.addEventListener('click', resetTimer);
-            toggleBtn.addEventListener('click', () => settingsPanel.classList.toggle('open'));
-            applyBtn.addEventListener('click', applySettings);
-
-            // Initial Setup
-            applySettings();
-            setInterval(animateBackground, 15000); // Animate background every 15s
-        });
-    </script>
-</div>
-</div>
-    <!-- Zone 3 -->
-    <div class="zone-3"></div>
-    <!-- Zone 4 -->
-    <div class="zone-4"></div>
-    <!-- Zone 5 -->
-    <div class="zone-5"></div>
-    <!-- Zone 6 -->
-    <div class="zone-6"></div>
-    <!-- Zone 7 -->
-    <div class="zone-7"></div>
-    <!-- Zone 8 -->
-    <div class="zone-8"></div>
-    <!-- Zone 9 -->
-    <div class="zone-9"></div>
-    <!-- Zone 10 -->
-    <div class="zone-10"></div>
-    <!-- Zone 11 -->
-    <div class="zone-11"></div>
-    <!-- Zone 12 -->
-    <div class="zone-12"></div>
-    <!-- Zone 13 -->
-    <div class="zone-13"></div>
-    <!-- Zone 14 -->
-    <div class="zone-14"></div>
-    <!-- Zone 15 -->
-    <div class="zone-15"></div>
-    <!-- Zone 16 -->
-    <div class="zone-16"></div>
-    <!-- Zone 17 -->
-    <div class="zone-17"></div>
-    <!-- Zone 18 -->
-    <div class="zone-18"></div>
-    <!-- Zone 19 -->
-    <div class="zone-19"></div>
-    <!-- Zone 20 -->
-    <div class="zone-20"></div>
 </body>
 
 </html>
